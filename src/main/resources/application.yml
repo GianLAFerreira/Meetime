@@ -1,0 +1,32 @@
+hubspot:
+  client-id: 025a6013-0a78-42ae-ae0d-65ad8d3f2237
+  client-secret: 8c2291f9-2129-4980-a113-0ce7185619a3
+  redirect-uri: http://localhost:8080/oauth/callback
+  auth-url: https://app.hubspot.com/oauth/authorize
+  token-url: https://api.hubapi.com/oauth/v1/token
+  scopes: crm.objects.contacts.read crm.objects.contacts.write oauth
+  api:
+    base-url: https://api.hubapi.com
+    contacts-path: /crm/v3/objects/contacts
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: meetime
+  profiles:
+    active: default
+  security:
+    user:
+      name: admin # Define o usuario para acesso
+      password: admin123 # Define a senha para acesso
+  data:
+    redis:
+      host: localhost
+      port: 6379
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
