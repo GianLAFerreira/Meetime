@@ -31,7 +31,7 @@ Este documento orienta como configurar, executar e testar sua aplicação de int
 
 1. **Clone o repositório**
    ```bash
-   git clone https://github.com/SEU_USUARIO/meetime-hubspot.git
+   git clone https://github.com/GianLAFerreira/meetime-hubspot.git
    cd meetime-hubspot
 
 2. **Variáveis de Ambiente**
