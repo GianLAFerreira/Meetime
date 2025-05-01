@@ -6,15 +6,48 @@ Este documento orienta como configurar, executar e testar sua aplicação de int
 
 ## 📋 Sumário
 
-1. [Pré-requisitos](#pré-requisitos)
-2. [Configuração](#configuração)
-3. [Segurança (Basic Auth)](#segurança-basic-auth)
-4. [Execução da aplicação](#execução-da-aplicação)
-5. [Execução da aplicação docker compose](#execução-da-aplicação-docker-compose)
-6. [Exemplos de CURL](#exemplos-de-curl)
-7. [Swagger / OpenAPI](#swagger--openapi)
-8. [Armazenamento de Token (Redis)](#armazenamento-de-token-redis)
-9. [Considerações Finais](#considerações-finais)
+1. [Documentação Técnica](#documentação-técnica)
+2. [Pré-requisitos](#pré-requisitos)
+3. [Configuração](#configuração)
+4. [Segurança (Basic Auth)](#segurança-basic-auth)
+5. [Execução da aplicação](#execução-da-aplicação)
+6. [Execução da aplicação docker compose](#execução-da-aplicação-docker-compose)
+7. [Exemplos de CURL](#exemplos-de-curl)
+8. [Swagger / OpenAPI](#swagger--openapi)
+9. [Armazenamento de Token (Redis)](#armazenamento-de-token-redis)
+10. [Considerações Finais](#considerações-finais)
+
+---
+
+## Documentação Técnica
+
+### Decisões de Arquitetura
+- **Spring Boot WebFlux**: escolhido por sua natureza reativa, baixo consumo de threads e fácil integração com o `WebClient`, ideal para chamadas assíncronas à API do HubSpot.
+- **WebClient + Retry**: utilizamos o `WebClient` do Spring para chamadas HTTP não-bloqueantes e adicionamos um filtro de retry para status `429 Too Many Requests`, garantindo resiliência sob rate-limit.
+
+### Motivação para Bibliotecas
+- **Spring Security (Basic Auth)**: protege rotas internas sem necessidade de código extra, confiável e configurável via `application.yml`.
+- **Spring Data Redis**: armazena o token OAuth com TTL automático, evitando uso de tokens expirados e simplificando o estado entre instâncias.
+- **Lombok**: reduz boilerplate de getters/setters/construtores, mantendo o código mais limpo.
+- **MapStruct**: gera mapeadores entre DTOs de forma performática e tipada, sem refletir em runtime.
+- **springdoc-openapi-starter-webflux-ui**: gera automaticamente a documentação Swagger/OpenAPI, permitindo testes rápidos via UI.
+
+### Contêineres e Orquestração
+- **Dockerfile multistage**: build + runtime separados para otimizar imagem final (~50 MB).
+- **Docker Compose**: orquestração de app + Redis, garantindo ambiente reproduzível em um único comando.
+
+### Possíveis Melhorias Futuras
+1. **Testes de Integração** com `WebTestClient` e um Redis embarcado (Testcontainers).
+2. **Circuit Breaker** (Resilience4j) para isolar falhas na API externa.
+3. **Monitoração**: exportar métricas (Micrometer + Prometheus + Grafana).
+4. **CI/CD**: configurar GitHub Actions para build, testes e deploy automático.
+5. **OAuth Refresh**: implementar fluxo de refresh token para manter sessões ativas sem nova autorização.
+6. **Webhook Security**: validar assinatura HMAC no payload do HubSpot para garantir integridade dos eventos.
+7. **URL pública fixa** para webhooks (ngrok pago ou DNS customizado).
+
+### Testes
+- **JUnit 5 + Mockito**: cobrimos serviços com testes unitários, validando fluxo feliz, tratamento de erros (401) e integração com `HubspotClient`.
+- **Reactor Test (StepVerifier)**: assegura comportamento correto de `Mono` e side-effects (salvar token).
 
 ---
 
