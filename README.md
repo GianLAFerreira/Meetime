@@ -104,7 +104,7 @@ Você receberá 401 Unauthorized se não fornecer ou fornecer credenciais incorr
 - Rodar o ngrok
     - No seu terminal, inicie um túnel HTTP para a sua porta 8081 (mesma porta da aplicação):
   ```bash
-  ngrok http 8081
+  ngrok http 8080
 
 - Isto vai criar duas URLs públicas, algo como:
 
