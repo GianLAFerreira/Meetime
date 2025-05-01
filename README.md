@@ -35,26 +35,11 @@ Este documento orienta como configurar, executar e testar sua aplicação de int
    cd meetime-hubspot
 
 2. **Variáveis de Ambiente**
-    - Crie um arquivo src/main/resources/application.yml com:
+    - Altere o arquivo src/main/resources/application.yml com:
    ```yaml
-    server:
-    port: 8080
-    
-    hubspot:
     client-id:     SEU_CLIENT_ID
     client-secret: SEU_CLIENT_SECRET
-    redirect-uri:  http://localhost:8080/oauth/callback
-    scopes:        crm.objects.contacts.read crm.objects.contacts.write oauth
-    
-    api:
-    base-url:      https://api.hubapi.com
-    contacts-path: /crm/v3/objects/contacts
-    
-    spring:
-    redis:
-    host: localhost
-    port: 6379
-    timeout: 2s
+
    
 3. **Instalar o ngrok**
 
