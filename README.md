@@ -23,7 +23,7 @@ Este documento orienta como configurar, executar e testar sua aplicação de int
 
 ### Decisões de Arquitetura
 - **Spring Boot WebFlux**: escolhido por sua natureza reativa, baixo consumo de threads e fácil integração com o `WebClient`, ideal para chamadas assíncronas à API do HubSpot.
-- **WebClient + Retry**: utilizamos o `WebClient` do Spring para chamadas HTTP não-bloqueantes e adicionamos um filtro de retry para status `429 Too Many Requests`, garantindo resiliência sob rate-limit.
+- **WebClient + Retry**: utilizamos o `WebClient` do Spring para chamadas HTTP não-bloqueantes e adicionei um filtro de retry para status `429 Too Many Requests`, garantindo resiliência sob rate-limit.
 
 ### Motivação para Bibliotecas
 - **Spring Security (Basic Auth)**: protege rotas internas sem necessidade de código extra, confiável e configurável via `application.yml`.
