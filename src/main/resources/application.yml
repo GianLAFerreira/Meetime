@@ -1,6 +1,6 @@
 hubspot:
-  client-id: 025a6013-0a78-42ae-ae0d-65ad8d3f2237
-  client-secret: 8c2291f9-2129-4980-a113-0ce7185619a3
+  client-id: #Adicionar o client id
+  client-secret: #Adicionar o client secret
   redirect-uri: http://localhost:8080/oauth/callback
   auth-url: https://app.hubspot.com/oauth/authorize
   token-url: https://api.hubapi.com/oauth/v1/token

@@ -12,7 +12,6 @@ public class TokenStorageService {
 
     private static final String ACCESS_TOKEN_KEY = "hubspot:access_token";
     private static final long EXPIRATION_TIME_SECONDS = 1800L; // 30 minutos
-
     private final StringRedisTemplate redisTemplate;
 
     public void saveAccessToken(String accessToken) {

@@ -8,7 +8,9 @@ import com.meetime.service.mapper.ContactMapper;
 import com.meetime.service.vo.CreateContactCreateVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -27,7 +29,14 @@ public class HubspotServiceImpl implements HubspotService {
     public Mono<CreateContactResponse> createContact(CreateContactRequest request) {
         hubspotRateLimiter.acquire();
 
-        String authorization = "Bearer " + tokenStorageService.getAccessToken();
+        String authorization = tokenStorageService.getAccessToken();
+
+        if (authorization == null) {
+            return Mono.error(new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Access token não encontrado"
+            ));
+        }
 
         CreateContactCreateVO createContactCreateVO = contactMapper.toCreateContactCreate(request);
         log.info("CreateContactCreateVO: {}", createContactCreateVO);
@@ -35,12 +44,12 @@ public class HubspotServiceImpl implements HubspotService {
         CreateContactHubsPotRequest createContactHubsPotRequest = contactMapper.toCreateContactCreateVO(createContactCreateVO);
         log.info("CreateContactHubsPot: {}", createContactHubsPotRequest);
 
+
         return hubspotClient.createContact(authorization, createContactHubsPotRequest)
                 .doOnNext(r -> log.info("Service → contato criado (raw): {}", r))
                 .doOnError(e -> log.error("Service → erro criando contato", e))
                 .map(contactMapper::toResponse);
     }
-
 
     @Override
     public Mono<Map<String, Object>> listContacts() {
