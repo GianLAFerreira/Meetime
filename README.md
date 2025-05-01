@@ -38,7 +38,7 @@ Este documento orienta como configurar, executar e testar sua aplicação de int
     - Crie um arquivo src/main/resources/application.yml com:
    ```yaml
     server:
-    port: 8081
+    port: 8080
     
     hubspot:
     client-id:     SEU_CLIENT_ID
@@ -102,14 +102,14 @@ Você receberá 401 Unauthorized se não fornecer ou fornecer credenciais incorr
   mvn clean package
   java -jar target/Meetime-0.0.1-SNAPSHOT.jar
 - Rodar o ngrok
-    - No seu terminal, inicie um túnel HTTP para a sua porta 8081 (mesma porta da aplicação):
+    - No seu terminal, inicie um túnel HTTP para a sua porta 8080 (mesma porta da aplicação):
   ```bash
   ngrok http 8080
 
 - Isto vai criar duas URLs públicas, algo como:
 
-  Forwarding    https://a1b2c3d4e5f6.ngrok.io  →  http://localhost:8081  
-  Forwarding    http://a1b2c3d4e5f6.ngrok.io   →  http://localhost:8081
+  Forwarding    https://a1b2c3d4e5f6.ngrok.io  →  http://localhost:8080  
+  Forwarding    http://a1b2c3d4e5f6.ngrok.io   →  http://localhost:8080
 
 - Copie a URL HTTPS (por exemplo, https://a1b2c3d4e5f6.ngrok.io)
 - Configurar o Webhook no HubSpot
@@ -207,17 +207,17 @@ Passo a passo
 
 1. **Gerar URL de autorização**
    ```bash
-   curl --location --request GET 'http://localhost:8081/oauth/authorize' \
+   curl --location --request GET 'http://localhost:8080/oauth/authorize' \
      --header 'Authorization: Basic YWRtaW46YWRtaW4xMjM='
    
 2. **Trocar code por access_token**
    ```bash
-   curl --location --request GET 'http://localhost:8081/oauth/callback?code=SEU_CODE_AQUI' \
+   curl --location --request GET 'http://localhost:8080/oauth/callback?code=SEU_CODE_AQUI' \
    --header 'Authorization: Basic YWRtaW46YWRtaW4xMjM='
 
 3. **Criar um contato**
    ```bash
-   curl --location --request POST 'http://localhost:8081/hubspot/contacts' \
+   curl --location --request POST 'http://localhost:8080/hubspot/contacts' \
    --header 'Content-Type: application/json' \
    --header 'Authorization: Basic YWRtaW46YWRtaW4xMjM=' \
    --data '{
@@ -230,7 +230,7 @@ Passo a passo
 
 4. **Listar Contatos**
    ```bash
-   curl --location --request GET 'http://localhost:8081/hubspot/contacts' \
+   curl --location --request GET 'http://localhost:8080/hubspot/contacts' \
    --header 'Authorization: Basic YWRtaW46YWRtaW4xMjM='
    
 5. **Dica** para gerenciar e-mails únicos no CLI, você pode usar um timestamp:
@@ -242,7 +242,7 @@ Passo a passo
 
 1. A dependência **springdoc-openapi-starter-webflux-ui** já está no pom.xml.
 2. Após subir a aplicação, acesse no navegador:
-[http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html
+[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html
 )
 3. Explore a UI, veja esquemas de DTOs e teste endpoints diretamente.
 
